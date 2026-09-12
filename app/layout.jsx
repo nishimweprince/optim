@@ -7,9 +7,9 @@ const dm = DM_Sans({
 });
 
 export const metadata = {
-  title: 'Optim | Printing and Branding House in Kigali, Rwanda',
+  title: 'Optim | Full-Service Marketing Agency in Kigali, Rwanda',
   description:
-    'Optim is a full-service printing and branding house in Kigali: graphic design, large-format printing, laser cutting and engraving, and complete brand identities.',
+    'Optim is a full-service marketing agency in Kigali: strategy, brand, content, digital and print, planned together and produced under one roof.',
   icons: {
     icon: '/optim-logo.png',
   },

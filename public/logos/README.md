@@ -1,23 +1,23 @@
 # Customer logos
 
-The homepage logo carousel loads one file per customer from this folder:
+All 12 homepage marks were verified against Optim's official
+[customer page](https://www.optim.rw/customers.html) and copied from the logo
+assets published there on 2026-09-12.
 
-| Customer | File |
+| Customer | Local asset |
 | --- | --- |
-| Ecobank | `ecobank.png` (missing) |
-| Pesapal | `pesapal.png` (present) |
-| African Leadership University | `alu.png` (missing) |
-| Rwanda Forensic Institute | `rfi.png` (missing) |
-| Davis College Akilah | `akilah.png` (missing) |
-| Fine FM 93.1 | `fine-fm.png` (missing) |
-| Radiant Yacu | `radiant-yacu.png` (missing) |
-| Rwanda Broadcasting Agency | `rba.png` (missing) |
-| Legacy Clinics | `legacy-clinics.png` (missing) |
-| Rwanda Education Board | `reb.png` (missing) |
-| Umutanguha Finance | `umutanguha.png` (missing) |
-| Gasabo Gold Refinery | `ggr.png` (missing) |
+| Ecobank | `ecobank.jpg` |
+| Pesapal | `pesapal.png` |
+| African Leadership University | `alu.jpg` |
+| Rwanda Forensic Institute | `rfi.jpg` |
+| Davis College Akilah | `akilah.png` |
+| Fine FM 93.1 | `fine-fm.jpg` |
+| Radiant Yacu | `radiant-yacu.png` |
+| Rwanda Broadcasting Agency | `rba.png` |
+| Legacy Clinics | `legacy-clinics.png` |
+| Rwanda Education Board | `reb.png` |
+| Umutanguha Finance | `umutanguha.png` |
+| Gasabo Gold Refinery | `ggr.png` |
 
-To fill a slot, drop the real logo here as a PNG with a transparent
-background (about 400px wide works well). It appears automatically.
-While a logo is loading, a shimmer skeleton shows; slugs without a file
-render a labeled dashed placeholder.
+The `CUSTOMERS` records in `lib/catalogue.js` explicitly map each organization
+to its asset so a missing logo cannot silently render a branded placeholder.

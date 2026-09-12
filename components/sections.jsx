@@ -8,7 +8,6 @@ import {
   faBars,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import {
   CUSTOMERS,
   WORK_SAMPLES,
@@ -96,7 +95,7 @@ export function Nav({ solid = false }) {
         <Brand />
         <nav className="nav-links" aria-label="Primary navigation">
           <Link href="/#work">Work</Link>
-          <Link href="/offers">Offers</Link>
+          <Link href="/offers">Services</Link>
           <Link href="/#process">Process</Link>
           <Link href="/#contact">Contact</Link>
         </nav>
@@ -119,7 +118,7 @@ export function Nav({ solid = false }) {
             Work
           </Link>
           <Link href="/offers" onClick={() => setOpen(false)}>
-            Offers
+            Services
           </Link>
           <Link href="/#process" onClick={() => setOpen(false)}>
             Process
@@ -128,7 +127,7 @@ export function Nav({ solid = false }) {
             Contact
           </Link>
         </nav>
-        <span>Kigali, Rwanda · Printing and branding house</span>
+        <span>Kigali, Rwanda · Marketing agency</span>
       </div>
     </header>
   );
@@ -138,30 +137,34 @@ function MomentumRail() {
   return (
     <div
       className="momentum-rail"
-      aria-label="OPTIM method: Design, produce, deliver"
+      aria-label="OPTIM method: Strategy, create, scale"
     >
       <span className="rail-line" aria-hidden="true">
         <i />
         <i />
         <i />
       </span>
-      <span>Design</span>
-      <span>Produce</span>
-      <span>Deliver</span>
+      <span>Strategy</span>
+      <span>Create</span>
+      <span>Scale</span>
     </div>
   );
 }
 
 export function Hero() {
   const videoRef = useRef(null);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     const video = videoRef.current;
-    if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    if (!video) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches)
       video.pause();
+    if (video.readyState >= 3) setReady(true);
   }, []);
 
   return (
-    <header className="hero">
+    <header className={`hero${ready ? '' : ' hero-loading'}`}>
+      {!ready && <div className="hero-skeleton" aria-hidden="true" />}
       <video
         ref={videoRef}
         autoPlay
@@ -169,6 +172,8 @@ export function Hero() {
         loop
         playsInline
         poster="https://images.pexels.com/videos/29906414/being-made-factory-machine-newspaper-29906414.jpeg?auto=compress&cs=tinysrgb&w=1920"
+        onLoadedData={() => setReady(true)}
+        onError={() => setReady(true)}
       >
         <source
           src="https://videos.pexels.com/video-files/29906414/12837349_2560_1440_24fps.mp4"
@@ -177,15 +182,15 @@ export function Hero() {
       </video>
       <div className="hero-shade" />
       <div className="hero-copy page-wrap">
-        <h1 className="text-md:lg">
+        <h1>
           <span>Precision in</span>
-          <strong className="!m-0">every pixel.</strong>
+          <strong>every pixel.</strong>
         </h1>
         <div className="hero-bottom">
           <p>
-            Optim is a full-service printing and branding house, from graphic
-            design and large-format printing to laser cutting, engraving and
-            complete brand identities.
+            Optim is a full-service marketing agency in Kigali. Strategy, brand,
+            content, digital and print, planned together and produced under one
+            roof.
           </p>
           <div className="button-row">
             <Link className="button button-light" href="/offers">
@@ -202,27 +207,16 @@ export function Hero() {
   );
 }
 
-function LogoItem({ name, slug, hidden }) {
-  const [status, setStatus] = useState('loading');
+function LogoItem({ name, logo, hidden }) {
   return (
     <span className="logo-item" aria-hidden={hidden || undefined}>
-      {status === 'loading' && (
-        <span className="logo-skeleton" aria-hidden="true" />
-      )}
-      {status === 'missing' ? (
-        <span className="logo-placeholder">{name}</span>
-      ) : (
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img
-          className="logo-img"
-          src={`/logos/${slug}.png`}
-          alt={name}
-          loading="lazy"
-          onLoad={() => setStatus('loaded')}
-          onError={() => setStatus('missing')}
-          style={status === 'loading' ? { display: 'none' } : undefined}
-        />
-      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className="logo-img"
+        src={logo}
+        alt={hidden ? '' : name}
+        loading="eager"
+      />
     </span>
   );
 }
@@ -230,14 +224,18 @@ function LogoItem({ name, slug, hidden }) {
 export function LogoCarousel() {
   const loop = [...CUSTOMERS, ...CUSTOMERS];
   return (
-    <section className="logo-strip" aria-label="Customer logos">
+    <section className="logo-strip" aria-label="Selected Optim customers">
+      <div className="logo-strip-head page-wrap">
+        <span className="utility-label">Trusted by</span>
+        <span>12 organisations across Rwanda</span>
+      </div>
       <div className="logo-marquee">
         <div className="logo-track">
           {loop.map((customer, index) => (
             <LogoItem
               key={`${customer.slug}-${index}`}
               name={customer.name}
-              slug={customer.slug}
+              logo={customer.logo}
               hidden={index >= CUSTOMERS.length}
             />
           ))}
@@ -253,14 +251,12 @@ export function Intro() {
       <Reveal className="page-wrap intro-grid">
         <div>
           <span className="utility-label">About Optim</span>
-          <p className="manifesto">A leading printing and branding house.</p>
+          <p className="manifesto">A full-service marketing agency.</p>
         </div>
         <div className="intro-copy">
           <p>
-            Optim Digital Marketing Expert specializes in large-format printing,
-            design, and branding. With a commitment to quality and innovation,
-            we provide high-impact visual solutions that help businesses stand
-            out in a competitive market.
+            Optim plans and produces marketing across brand, content, digital
+            and print, so the work ships faster and performs.
           </p>
           <Link className="text-link" href="/offers">
             Explore our services <FontAwesomeIcon icon={faChevronRight} />
@@ -282,7 +278,7 @@ export function Intro() {
             loading="lazy"
           />
           <span className="about-chip">
-            Design, print, cut, engrave and brand under one roof
+            Strategy, brand, content, digital and print, one team
           </span>
         </div>
       </Reveal>
@@ -304,8 +300,8 @@ export function Work() {
             </h2>
           </div>
           <p>
-            Print, design, and branding for banks, universities, media houses,
-            and clinics across Rwanda.
+            Campaigns for banks, universities, media houses and clinics across
+            Rwanda.
           </p>
         </Reveal>
         <div className="work-grid">
@@ -356,48 +352,127 @@ export function Work() {
 }
 
 export function OffersPreview() {
+  const sectionRef = useRef(null);
+  const [activeGroup, setActiveGroup] = useState(0);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return undefined;
+    const panels = [...section.querySelectorAll('[data-service-index]')];
+    let frame;
+    const updateActiveGroup = () => {
+      const navHeight = Number.parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--nav-height',
+        ),
+      );
+      const trigger = navHeight + Math.min(180, window.innerHeight * 0.28);
+      let current = 0;
+      panels.forEach((panel, index) => {
+        if (panel.getBoundingClientRect().top <= trigger) current = index;
+      });
+      setActiveGroup(current);
+      frame = undefined;
+    };
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveGroup);
+    };
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    updateActiveGroup();
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  function scrollToGroup(index) {
+    const panel = sectionRef.current?.querySelector(
+      `[data-service-index="${index}"]`,
+    );
+    if (!panel) return;
+    setActiveGroup(index);
+    panel.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+      block: 'start',
+    });
+  }
+
   return (
-    <section className="section offers-preview" id="offers">
-      <div className="page-wrap">
-        <Reveal className="section-heading heading-split">
-          <div>
-            <span className="utility-label">Our services</span>
-            <h2>
-              Precision in every pixel,
-              <br />
-              from design to delivery.
-            </h2>
+    <section className="section offers-preview" id="offers" ref={sectionRef}>
+      <div className="page-wrap services-scroll-layout">
+        <aside className="services-sticky">
+          <span className="utility-label">Our services</span>
+          <h2>Five disciplines. One team.</h2>
+          <p>From first idea to launch, one connected workflow.</p>
+          <div className="service-index" aria-label="Service disciplines">
+            {CATALOGUE_GROUPS.map((group, index) => (
+              <button
+                type="button"
+                key={group.id}
+                aria-current={activeGroup === index ? 'step' : undefined}
+                onClick={() => scrollToGroup(index)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                {group.label}
+              </button>
+            ))}
           </div>
-          <p>
-            Start with a single job or brand everything at once. Design, print,
-            and finishing live under one roof.
-          </p>
-        </Reveal>
-        <div className="service-grid">
-          {CATALOGUE_GROUPS.map((group) => {
+          <Link className="button button-dark" href="/offers">
+            Explore all 9 services <FontAwesomeIcon icon={faChevronRight} />
+          </Link>
+        </aside>
+        <div className="service-stack">
+          {CATALOGUE_GROUPS.map((group, index) => {
             const offers = CATALOGUE.filter(
               (offer) => offer.group === group.id,
             );
             return (
-              <Reveal className="service-card" key={group.id}>
+              <article
+                className={`service-panel service-panel-${group.id}${activeGroup === index ? ' is-active' : ''}`}
+                data-service-index={index}
+                key={group.id}
+              >
                 <Link href={`/offers?group=${group.id}`}>
-                  <span className="service-count">
-                    {String(offers.length).padStart(2, '0')} services
+                  <span className="service-panel-top">
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <span>
+                      <i aria-hidden="true" /> {offers.length} service
+                      {offers.length === 1 ? '' : 's'}
+                    </span>
                   </span>
-                  <h3>{group.label}</h3>
-                  <p>{group.description}</p>
-                  <span className="service-price">{firstPrice(offers[0])}</span>
-                  <FontAwesomeIcon icon={faChevronRight} />
+                  <span className="service-panel-body">
+                    <span>
+                      <h3>{group.label}</h3>
+                      <p>{group.description}</p>
+                    </span>
+                    <span className="service-press-mark" aria-hidden="true">
+                      <i />
+                      <i />
+                      <b>{group.label.slice(0, 1)}</b>
+                    </span>
+                  </span>
+                  <span className="service-panel-footer">
+                    <span className="service-offer-list">
+                      {offers.map((offer) => (
+                        <span key={offer.slug}>
+                          {offer.family.replace('Optim ', '')}
+                        </span>
+                      ))}
+                    </span>
+                    <span className="service-explore">
+                      Explore discipline{' '}
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </span>
+                  </span>
                 </Link>
-              </Reveal>
+              </article>
             );
           })}
         </div>
-        <Reveal className="section-action">
-          <Link className="button button-dark" href="/offers">
-            Explore all 9 services <FontAwesomeIcon icon={faChevronRight} />
-          </Link>
-        </Reveal>
       </div>
     </section>
   );
@@ -406,39 +481,54 @@ export function OffersPreview() {
 export function WhyOptim() {
   return (
     <section className="section flagship" id="why-optim">
-      <div className="page-wrap">
-        <Reveal className="flagship-intro">
+      <div className="page-wrap why-layout">
+        <Reveal className="why-lead">
           <span className="utility-label">Why choose Optim</span>
           <h2>
-            The preferred partner
+            Every channel,
             <br />
-            for standout visuals.
+            one team.
           </h2>
           <p>
-            Our vision is to be the preferred printing and branding partner for
-            businesses seeking creative, high-quality, and impactful visual
-            solutions.
+            Strategy, creative, media and production stay connected from brief
+            to results.
           </p>
+          <div className="why-register" aria-hidden="true">
+            <i />
+            <i />
+            <span>
+              <small>One connected workflow</small>
+              Brief <b>→</b> results
+            </span>
+          </div>
         </Reveal>
-        <div className="plan-grid">
-          {WHY_OPTIM.map((reason) => (
-            <Reveal className="plan-card" key={reason.name}>
-              <span className="plan-audience">{reason.for}</span>
-              <h3>{reason.name}</h3>
+        <div className="why-reasons">
+          {WHY_OPTIM.map((reason, index) => (
+            <Reveal className="why-reason" key={reason.name}>
+              <span className="why-reason-index">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <div className="why-reason-copy">
+                <span>{reason.for}</span>
+                <h3>{reason.name}</h3>
+              </div>
               <ul>
                 {reason.items.map((item) => (
                   <li key={item}>
-                    <FontAwesomeIcon icon={faCircleCheck} />
+                    <span aria-hidden="true">↳</span>
                     {item}
                   </li>
                 ))}
               </ul>
-              <Link className="text-link" href="/#contact">
-                Get a quote <FontAwesomeIcon icon={faChevronRight} />
-              </Link>
             </Reveal>
           ))}
         </div>
+        <Reveal className="why-action">
+          <span>Bring the brief. We will carry it to results.</span>
+          <Link className="button button-light" href="/#contact">
+            Start a project <FontAwesomeIcon icon={faChevronRight} />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );
@@ -448,18 +538,18 @@ export function Process() {
   const steps = [
     {
       n: '01',
-      title: 'Design',
-      text: 'Bring an idea or a finished file. Our designers create logos, layouts, and artwork ready for production.',
+      title: 'Strategy',
+      text: 'Positioning, channels and budgets decided before anything is made.',
     },
     {
       n: '02',
-      title: 'Produce',
-      text: 'We print, cut, engrave, and finish with cutting-edge equipment and close checks on quality.',
+      title: 'Create',
+      text: 'Brand, content and campaigns produced in-house by one team.',
     },
     {
       n: '03',
-      title: 'Deliver',
-      text: 'Timely delivery without compromise on quality, so your brand goes public on schedule.',
+      title: 'Scale',
+      text: 'Launched, measured and tuned until the numbers move.',
     },
   ];
   return (
@@ -467,7 +557,7 @@ export function Process() {
       <div className="page-wrap">
         <Reveal className="section-heading">
           <span className="utility-label">How we work</span>
-          <h2>Design. Produce. Deliver.</h2>
+          <h2>Strategy. Create. Scale.</h2>
         </Reveal>
         <div className="process-list">
           {steps.map((step) => (
@@ -490,7 +580,7 @@ export function ProjectInquiryForm({ compact = false }) {
     const data = new FormData(event.currentTarget);
     const name = data.get('name');
     const company = data.get('company');
-    const subject = `Quote request from ${company || name}`;
+    const subject = `New business from ${company || name}`;
     const body = [
       `Name: ${name}`,
       `Company: ${company}`,
@@ -554,9 +644,9 @@ export function ProjectInquiryForm({ compact = false }) {
             <option value="" disabled>
               Select a size
             </option>
-            <option>Single items</option>
-            <option>Small batch</option>
-            <option>Bulk order</option>
+            <option>Single project</option>
+            <option>Campaign</option>
+            <option>Monthly retainer</option>
             <option>Ongoing partnership</option>
           </select>
         </label>
@@ -578,7 +668,7 @@ export function ProjectInquiryForm({ compact = false }) {
         <textarea
           name="summary"
           rows="4"
-          placeholder="What should we print, cut, engrave, or brand for you?"
+          placeholder="What should we market, launch, or grow?"
           required
         />
       </label>
@@ -607,8 +697,8 @@ export function Contact() {
             your project.
           </h2>
           <p>
-            Have a print, design, or branding job in mind? Reach out directly or
-            send us a message. We will get back to you quickly.
+            Have a marketing goal in mind? Reach out or send a message. We will
+            get back to you quickly.
           </p>
           <a
             className="contact-email"
@@ -705,14 +795,10 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="page-wrap footer-grid">
         <Brand />
-        <p>
-          Printing, design, and branding
-          <br />
-          that help businesses stand out.
-        </p>
+        <p>Full-service marketing for ambitious brands.</p>
         <nav aria-label="Footer navigation">
           <Link href="/#work">Work</Link>
-          <Link href="/offers">Offers</Link>
+          <Link href="/offers">Services</Link>
           <Link href="/#process">Process</Link>
           <Link href="/#contact">Contact</Link>
         </nav>

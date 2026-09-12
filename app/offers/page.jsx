@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Nav, OffersCatalogue, SiteFooter } from '../../components/sections';
 
-export const metadata = { title: 'Services | Optim Printing and Branding' };
+export const metadata = { title: 'Services | Optim Marketing Agency' };
 
 export default function OffersIndex() {
   return (
@@ -9,9 +9,7 @@ export default function OffersIndex() {
       <Nav solid />
       <section className="inner-hero catalogue-hero">
         <div className="page-wrap">
-          <span className="utility-label">
-            Design, print, cut, engrave, brand
-          </span>
+          <span className="utility-label">Brand, content, digital, print</span>
           <h1>
             Clear services.
             <br />
@@ -19,9 +17,8 @@ export default function OffersIndex() {
           </h1>
           <div className="inner-hero-copy">
             <p>
-              Choose one focused service or combine several to brand everything
-              at once. Every job is quoted individually for your exact
-              materials, sizes, and quantities.
+              Choose one focused service or combine several into one plan. Every
+              engagement is quoted for your goals, channels and timelines.
             </p>
             <span>9 services · 5 disciplines</span>
           </div>
@@ -36,9 +33,9 @@ export default function OffersIndex() {
         <div className="page-wrap">
           <span className="utility-label">Need a joined-up plan?</span>
           <h2>
-            Start with the project.
+            Start with the goal.
             <br />
-            We will map the right service.
+            We will map the right mix.
           </h2>
           <Link className="button button-light" href="/#contact">
             Get a quote

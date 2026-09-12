@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import Link from 'next/link';
 import { Nav, SiteFooter } from '../../../components/sections';
@@ -14,9 +14,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const offer = CATALOGUE.find((item) => item.slug === slug);
-  return offer
-    ? { title: `${offer.family} | Optim Printing and Branding` }
-    : {};
+  return offer ? { title: `${offer.family} | Optim Marketing Agency` } : {};
 }
 
 export default async function OfferPage({ params }) {
@@ -39,7 +37,7 @@ export default async function OfferPage({ params }) {
         <section className="offer-hero">
           <div className="page-wrap">
             <Link className="back-link" href="/offers">
-              <FontAwesomeIcon icon={faChevronRight} /> All services
+              <FontAwesomeIcon icon={faChevronLeft} /> All services
             </Link>
             <div className="offer-hero-grid">
               <div className="offer-heading">
@@ -52,7 +50,7 @@ export default async function OfferPage({ params }) {
                 <h1>{offer.family}</h1>
                 <p>
                   {meta.tagline} Every option is a clear scope, quoted for your
-                  exact job.
+                  goals.
                 </p>
                 <Link className="button button-dark" href="/#contact">
                   Request this service <FontAwesomeIcon icon={faChevronRight} />
@@ -77,8 +75,8 @@ export default async function OfferPage({ params }) {
                 the job requires.
               </h2>
               <p>
-                Every job is quoted individually. We confirm materials, sizes,
-                and timing before work begins.
+                Every engagement is quoted individually. We confirm goals,
+                channels and timing before work begins.
               </p>
             </div>
             <div className="tiers">
@@ -132,8 +130,8 @@ export default async function OfferPage({ params }) {
         </section>
         <section className="offer-bottom-cta">
           <div className="page-wrap">
-            <span className="utility-label">Ready to print?</span>
-            <h2>Let Optim bring your brand to life.</h2>
+            <span className="utility-label">Ready to grow?</span>
+            <h2>Let Optim move your brand forward.</h2>
             <Link className="button button-light" href="/#contact">
               Get a quote <FontAwesomeIcon icon={faChevronRight} />
             </Link>
