@@ -20,7 +20,7 @@ export default function OffersIndex() {
               Choose one focused service or combine several into one plan. Every
               engagement is quoted for your goals, channels and timelines.
             </p>
-            <span>9 services · 5 disciplines</span>
+            <span>10 services · 3 disciplines</span>
           </div>
         </div>
       </section>

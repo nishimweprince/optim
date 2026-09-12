@@ -96,6 +96,7 @@ export function Nav({ solid = false }) {
         <nav className="nav-links" aria-label="Primary navigation">
           <Link href="/#work">Work</Link>
           <Link href="/offers">Services</Link>
+          <Link href="/about">About</Link>
           <Link href="/#process">Process</Link>
           <Link href="/#contact">Contact</Link>
         </nav>
@@ -119,6 +120,9 @@ export function Nav({ solid = false }) {
           </Link>
           <Link href="/offers" onClick={() => setOpen(false)}>
             Services
+          </Link>
+          <Link href="/about" onClick={() => setOpen(false)}>
+            About
           </Link>
           <Link href="/#process" onClick={() => setOpen(false)}>
             Process
@@ -188,9 +192,9 @@ export function Hero() {
         </h1>
         <div className="hero-bottom">
           <p>
-            Optim is a full-service marketing agency in Kigali. Strategy, brand,
-            content, digital and print, planned together and produced under one
-            roof.
+            Optim is a marketing agency in Kigali built on three offerings:
+            digital marketing, branding and design, planned together and
+            produced under one roof.
           </p>
           <div className="button-row">
             <Link className="button button-light" href="/offers">
@@ -278,7 +282,7 @@ export function Intro() {
             loading="lazy"
           />
           <span className="about-chip">
-            Strategy, brand, content, digital and print, one team
+            Digital marketing, branding and design, one team
           </span>
         </div>
       </Reveal>
@@ -299,10 +303,7 @@ export function Work() {
               what we produce.
             </h2>
           </div>
-          <p>
-            Campaigns for banks, universities, media houses and clinics across
-            Rwanda.
-          </p>
+          <p>Work across digital, print and web for brands across Rwanda.</p>
         </Reveal>
         <div className="work-grid">
           {WORK_SAMPLES.map((sample, index) => (
@@ -406,8 +407,10 @@ export function OffersPreview() {
       <div className="page-wrap services-scroll-layout">
         <aside className="services-sticky">
           <span className="utility-label">Our services</span>
-          <h2>Five disciplines. One team.</h2>
-          <p>From first idea to launch, one connected workflow.</p>
+          <h2>Three disciplines. One team.</h2>
+          <p>
+            Digital marketing, branding and design, from first idea to launch.
+          </p>
           <div className="service-index" aria-label="Service disciplines">
             {CATALOGUE_GROUPS.map((group, index) => (
               <button
@@ -422,7 +425,7 @@ export function OffersPreview() {
             ))}
           </div>
           <Link className="button button-dark" href="/offers">
-            Explore all 9 services <FontAwesomeIcon icon={faChevronRight} />
+            Explore all 10 services <FontAwesomeIcon icon={faChevronRight} />
           </Link>
         </aside>
         <div className="service-stack">
@@ -799,6 +802,7 @@ export function SiteFooter() {
         <nav aria-label="Footer navigation">
           <Link href="/#work">Work</Link>
           <Link href="/offers">Services</Link>
+          <Link href="/about">About</Link>
           <Link href="/#process">Process</Link>
           <Link href="/#contact">Contact</Link>
         </nav>
