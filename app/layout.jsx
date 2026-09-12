@@ -1,7 +1,10 @@
 import './globals.css';
 import { DM_Sans } from 'next/font/google';
 
-const dm = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500', '700'] });
+const dm = DM_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+});
 
 export const metadata = {
   title: 'Optim | Printing and Branding House in Kigali, Rwanda',
