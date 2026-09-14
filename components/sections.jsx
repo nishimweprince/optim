@@ -161,9 +161,31 @@ export function Hero() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       video.pause();
-    if (video.readyState >= 3) setReady(true);
+      return undefined;
+    }
+    // React renders `muted` as an attribute but mobile Safari/Chrome only
+    // autoplay when the muted *property* is set before play() is called.
+    video.muted = true;
+    video.defaultMuted = true;
+    const tryPlay = () => {
+      if (video.readyState >= 3) setReady(true);
+      const promise = video.play();
+      if (promise && typeof promise.catch === 'function')
+        promise.catch(() => {});
+    };
+    tryPlay();
+    video.addEventListener('canplay', tryPlay);
+    // First tap / visibility change unlocks autoplay on strict mobile browsers.
+    const unlock = () => tryPlay();
+    window.addEventListener('touchend', unlock, { passive: true });
+    document.addEventListener('visibilitychange', unlock);
+    return () => {
+      video.removeEventListener('canplay', tryPlay);
+      window.removeEventListener('touchend', unlock);
+      document.removeEventListener('visibilitychange', unlock);
+    };
   }, []);
 
   return (
@@ -175,8 +197,19 @@ export function Hero() {
         muted
         loop
         playsInline
+        preload="auto"
         poster="https://images.pexels.com/videos/29906414/being-made-factory-machine-newspaper-29906414.jpeg?auto=compress&cs=tinysrgb&w=1920"
         onLoadedData={() => setReady(true)}
+        onCanPlay={() => {
+          setReady(true);
+          const video = videoRef.current;
+          if (video) {
+            video.muted = true;
+            const promise = video.play();
+            if (promise && typeof promise.catch === 'function')
+              promise.catch(() => {});
+          }
+        }}
         onError={() => setReady(true)}
       >
         <source
