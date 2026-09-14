@@ -706,6 +706,17 @@ textarea {
 }
 .about-hero > img {
   z-index: 0;
+  filter: brightness(0.72);
+}
+.about-hero .hero-shade {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 9, 10, 0.52) 0%,
+      rgba(8, 9, 10, 0.3) 35%,
+      rgba(8, 9, 10, 0.88) 100%
+    ),
+    linear-gradient(90deg, rgba(8, 9, 10, 0.45), transparent 65%);
 }
 .about-gallery-section {
   padding-top: 0;
